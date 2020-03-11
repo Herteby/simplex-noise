@@ -28,7 +28,7 @@ initialModel : Model
 initialModel =
     { resolution = 300
     , scale = 1
-    , steps = 4
+    , steps = 6
     , stepSize = 2
     , persistence = 2
     , threshold = Nothing
