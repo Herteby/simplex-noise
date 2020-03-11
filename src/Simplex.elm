@@ -1,7 +1,8 @@
 module Simplex exposing
     ( PermutationTable, permutationTableGenerator, permutationTableFromInt
-    , noise4d, noise3d, noise2d
-    , fractal2d, fractal3d, fractal4d)
+    , noise2d, noise3d, noise4d
+    , FractalConfig, fractal2d, fractal3d, fractal4d
+    )
 
 {-|
 
@@ -15,9 +16,11 @@ module Simplex exposing
 
 @docs noise2d, noise3d, noise4d
 
+
 # Fractal noise
 
-@docs fractal2d, fractal3d, fractal4d
+@docs FractalConfig, fractal2d, fractal3d, fractal4d
+
 -}
 
 import Array exposing (Array)
@@ -64,8 +67,6 @@ get arr i =
 
         Nothing ->
             0
-
-
 
 
 grad3 : Array Float
@@ -183,13 +184,15 @@ getN4d x y z w i j k l perm permMod12 =
         t_ * t_ * (get grad4 gi * x + get grad4 (gi + 1) * y + get grad4 (gi + 2) * z + get grad4 (gi + 3) * w)
 
 
-{-| Permutation table that is needed to generate the noise value.
+{-| A Permutation table is a big list of random values needed for noise generation.
 -}
 type alias PermutationTable =
-    { perm : Array Int, permMod12 : Array Int }
+    { perm : Array Int
+    , permMod12 : Array Int
+    }
 
 
-{-| Generate the permutation tables that are needed to calculate the noise value.
+{-| Generator of random permutation tables.
 -}
 permutationTableGenerator : Random.Generator PermutationTable
 permutationTableGenerator =
@@ -206,7 +209,7 @@ permutationTableGenerator =
             )
 
 
-{-| Convenience function to generate a PermutationTable using an Int as a seed
+{-| Generate a PermutationTable using an Int as a seed
 -}
 permutationTableFromInt : Int -> PermutationTable
 permutationTableFromInt int =
@@ -589,6 +592,17 @@ noise4d { perm, permMod12 } x y z w =
     in
     27 * (n0 + n1 + n2 + n3 + n4)
 
+
+{-| Options for fractal noise generation
+
+  - steps: This scales all the noise, making it smoother/blurrier
+  - stepSize: The number of noise layers to combine. The more layers, the larger the features will be. Increases processing time.
+  - persistence: A value of 2 means that each noise layer is twice as large as the previous one.
+  - scale: A higher persistence means that the larger noise layers are weighed more heavily, while a lower one weighs the smaller layers more.
+
+Use this previewer to experiment with different options: <https://herteby.github.io/simplex-noise/preview/>
+
+-}
 type alias FractalConfig =
     { steps : Int
     , stepSize : Float
@@ -596,7 +610,9 @@ type alias FractalConfig =
     , scale : Float
     }
 
-{-| 2-dimensional fractal noise -}
+
+{-| 2-Dimensional fractal noise
+-}
 fractal2d : FractalConfig -> PermutationTable -> Float -> Float -> Float
 fractal2d { steps, stepSize, persistence, scale } table x y =
     List.range 0 (steps - 1)
@@ -610,16 +626,18 @@ fractal2d { steps, stepSize, persistence, scale } table x y =
                     amp =
                         persistence ^ step
                 in
-                ( noise + (amp * noise2d table (x / freq ) (y / freq ))
+                ( noise + (amp * noise2d table (x / freq) (y / freq))
                 , max + amp
                 )
             )
             ( 0, 0 )
         |> (\( noise, max ) -> noise / max)
 
-{-| 3-dimensional fractal noise -}
+
+{-| 3-Dimensional fractal noise
+-}
 fractal3d : FractalConfig -> PermutationTable -> Float -> Float -> Float -> Float
-fractal3d { steps, stepSize, persistence, scale } table x y z=
+fractal3d { steps, stepSize, persistence, scale } table x y z =
     List.range 0 (steps - 1)
         |> List.map toFloat
         |> List.foldl
@@ -631,16 +649,18 @@ fractal3d { steps, stepSize, persistence, scale } table x y z=
                     amp =
                         persistence ^ step
                 in
-                ( noise + (amp * noise3d table (x / freq ) (y / freq ) (z / freq ))
+                ( noise + (amp * noise3d table (x / freq) (y / freq) (z / freq))
                 , max + amp
                 )
             )
             ( 0, 0 )
         |> (\( noise, max ) -> noise / max)
 
-{-| 4-dimensional fractal noise -}
+
+{-| 4-Dimensional fractal noise
+-}
 fractal4d : FractalConfig -> PermutationTable -> Float -> Float -> Float -> Float -> Float
-fractal4d { steps, stepSize, persistence, scale } table x y z t=
+fractal4d { steps, stepSize, persistence, scale } table x y z t =
     List.range 0 (steps - 1)
         |> List.map toFloat
         |> List.foldl
@@ -652,7 +672,7 @@ fractal4d { steps, stepSize, persistence, scale } table x y z t=
                     amp =
                         persistence ^ step
                 in
-                ( noise + (amp * noise4d table (x / freq ) (y / freq ) (z / freq ) (t / freq ))
+                ( noise + (amp * noise4d table (x / freq) (y / freq) (z / freq) (t / freq))
                 , max + amp
                 )
             )

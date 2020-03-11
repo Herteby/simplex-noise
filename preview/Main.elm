@@ -10,10 +10,7 @@ import Image exposing (Image)
 import Image.Color
 import Json.Decode as Decode
 import Json.Decode.Extra as Decode
-import List.Extra as List
-import Regex
 import Simplex exposing (PermutationTable)
-import String.Extra as String
 
 
 type alias Model =
@@ -23,6 +20,7 @@ type alias Model =
     , stepSize : Float
     , persistence : Float
     , threshold : Maybe Float
+    , smooth : Bool
     }
 
 
@@ -34,6 +32,7 @@ initialModel =
     , stepSize = 2
     , persistence = 2
     , threshold = Nothing
+    , smooth = True
     }
 
 
@@ -45,6 +44,7 @@ type Msg
     | SetPersistence Float
     | ToggleThreshold
     | SetThreshold Float
+    | ToggleSmooth
     | Generate
 
 
@@ -81,6 +81,9 @@ update msg ( model, model2 ) =
         SetThreshold int ->
             ( { model | threshold = Just int }, model2 )
 
+        ToggleSmooth ->
+            ( { model | smooth = not model.smooth }, model2 )
+
         Generate ->
             ( model, model )
 
@@ -97,10 +100,10 @@ image { resolution, scale, steps, stepSize, persistence, threshold } =
             { steps = steps, stepSize = stepSize, persistence = persistence, scale = scale }
 
         url =
-            List.range (0 - resolution // 2) (resolution // 2)
+            List.range 0 resolution
                 |> List.map
                     (\x ->
-                        List.range (0 - resolution // 2) (resolution // 2)
+                        List.range 0 resolution
                             |> List.map
                                 (\y ->
                                     let
@@ -130,7 +133,7 @@ image { resolution, scale, steps, stepSize, persistence, threshold } =
 
 view : ( Model, Model ) -> Html Msg
 view ( model, model2 ) =
-    div [ class "main" ]
+    div [ class "main", classList [ ( "pixelated", not model.smooth ) ] ]
         [ div [ class "header" ]
             [ h1 []
                 [ text "Noise preview for "
@@ -138,36 +141,52 @@ view ( model, model2 ) =
                 ]
             ]
         , lazy image model2
-        , div [ class "panel" ]
-            [ floatField "Scale" model.scale SetScale
-            , intField "Steps" model.steps SetSteps
-            , floatField "Step size" model.stepSize SetStepSize
-            , floatField "Persistence" model.persistence SetPersistence
-            , intField "Resolution" model.resolution SetResolution
-            , label []
-                [ div [] [ text "Threshold" ]
-                , input
-                    [ type_ "checkbox"
-                    , checked (model.threshold /= Nothing)
-                    , onClick ToggleThreshold
-                    ]
-                    []
+        , Html.form [ onSubmit Generate ]
+            [ fieldset []
+                [ legend [] [ text "Noise settings" ]
+                , floatField "Scale" model.scale SetScale "This scales all the noise, making it smoother/blurrier"
+                , intField "Steps" model.steps SetSteps "The number of noise layers to combine. The more layers, the larger the features will be. Increases processing time."
+                , floatField "Step size" model.stepSize SetStepSize "A value of 2 means that each noise layer is twice as large as the previous one."
+                , floatField "Persistence" model.persistence SetPersistence "A higher persistence means that the larger noise layers are weighed more heavily, while a lower one weighs the smaller layers more."
                 ]
-            , case model.threshold of
-                Just t ->
-                    floatField "-1 to 1" t SetThreshold
+            , fieldset []
+                [ legend [] [ text "Display settings" ]
+                , intField "Resolution" model.resolution SetResolution "Width/height resolution of the generated image"
+                , label [ title "Toggle between greyscale and a hard black/white threshold" ]
+                    [ div [] [ text "Threshold" ]
+                    , input
+                        [ type_ "checkbox"
+                        , checked (model.threshold /= Nothing)
+                        , onClick ToggleThreshold
+                        ]
+                        []
+                    ]
+                , case model.threshold of
+                    Just t ->
+                        floatField "-1 to 1" t SetThreshold "The noise is generated in a range between -1 and 1."
 
-                Nothing ->
-                    text ""
-            , button [ onClick Generate ] [ text "Generate" ]
+                    Nothing ->
+                        text ""
+                , label [ title "Toggle the browser's image scaling mode. Turning off smooth scaling is not supported by all browsers." ]
+                    [ div [] [ text "Smooth scaling" ]
+                    , input
+                        [ type_ "checkbox"
+                        , checked model.smooth
+                        , onClick ToggleSmooth
+                        ]
+                        []
+                    ]
+                ]
+            , div [ class "hint" ] [ text "Hover over the settings to see helpful tooltips" ]
+            , button [] [ text "Generate" ]
             ]
         , node "style" [] [ text css ]
         ]
 
 
-intField : String -> Int -> (Int -> msg) -> Html msg
-intField name val msg =
-    label []
+intField : String -> Int -> (Int -> msg) -> String -> Html msg
+intField name val msg tooltip =
+    label [ title tooltip ]
         [ div [] [ text name ]
         , input
             [ type_ "number"
@@ -178,9 +197,9 @@ intField name val msg =
         ]
 
 
-floatField : String -> Float -> (Float -> msg) -> Html msg
-floatField name val msg =
-    label []
+floatField : String -> Float -> (Float -> msg) -> String -> Html msg
+floatField name val msg tooltip =
+    label [ title tooltip ]
         [ div [] [ text name ]
         , input
             [ type_ "number"
@@ -214,7 +233,7 @@ fractal2d { steps, stepSize, persistence, scale } table x y =
                     amp =
                         persistence ^ step
                 in
-                ( noise + (amp * Simplex.noise2d table (x / freq ) (y / freq ))
+                ( noise + (amp * Simplex.noise2d table (x / freq) (y / freq))
                 , max + amp
                 )
             )
@@ -230,6 +249,7 @@ html {
 body {
   height:100%;
   font-family:sans-serif;
+  font-size:14px;
   display:flex;
   margin:0;
 }
@@ -251,11 +271,14 @@ h1,h2,h3,h4,h5,h6,h7{
   flex-grow:1;
 }
 .image {
-  background-size: cover;
-  image-rendering:pixelated;
+  background-size:cover;
+  background-position:center;
   flex-grow:1;
 }
-.panel {
+.pixelated .image {
+  image-rendering:pixelated;
+}
+form {
   background:#eee;
   display:inline-block;
   padding:10px;
@@ -264,17 +287,31 @@ h1,h2,h3,h4,h5,h6,h7{
   top:100px;
   left:10px;
 }
+fieldset {
+  margin-bottom:10px;
+}
 label {
   display:flex;
   align-items:center;
-  margin-bottom:10px;
+}
+label:not(:first-of-type){
+  margin-top:10px;
 }
 label div {
-  width: 120px;
+  width:130px;
+}
+input[type="number"]{
+  width:50px;
 }
 button {
   font-size:16px;
   padding:5px;
   width:100%;
+}
+.hint {
+  width:1px;
+  min-width:100%;
+  font-size:12px;
+  margin-bottom:10px;
 }
 """

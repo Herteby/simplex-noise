@@ -614,11 +614,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.aO.ag === region.aY.ag)
+	if (region.aP.ah === region.aZ.ah)
 	{
-		return 'on line ' + region.aO.ag;
+		return 'on line ' + region.aP.ah;
 	}
-	return 'on lines ' + region.aO.ag + ' through ' + region.aY.ag;
+	return 'on lines ' + region.aP.ah + ' through ' + region.aZ.ah;
 }
 
 
@@ -1871,9 +1871,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.b2,
-		impl.cj,
-		impl.cg,
+		impl.b3,
+		impl.ck,
+		impl.ch,
 		function() { return function() {} }
 	);
 });
@@ -2719,8 +2719,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		E: func(record.E),
-		aP: record.aP,
-		aK: record.aK
+		aQ: record.aQ,
+		aL: record.aL
 	}
 });
 
@@ -2989,10 +2989,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.E;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.aP;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.aQ;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.aK) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.aL) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3942,11 +3942,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.b2,
-		impl.cj,
-		impl.cg,
+		impl.b3,
+		impl.ck,
+		impl.ch,
 		function(sendToApp, initialModel) {
-			var view = impl.ck;
+			var view = impl.cl;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3978,12 +3978,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.b2,
-		impl.cj,
-		impl.cg,
+		impl.b3,
+		impl.ck,
+		impl.ch,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.aN && impl.aN(sendToApp)
-			var view = impl.ck;
+			var divertHrefToApp = impl.aO && impl.aO(sendToApp)
+			var view = impl.cl;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3991,12 +3991,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.bL);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.bM);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.ci) && (_VirtualDom_doc.title = title = doc.ci);
+				(title !== doc.cj) && (_VirtualDom_doc.title = title = doc.cj);
 			});
 		}
 	);
@@ -4052,12 +4052,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.b8;
-	var onUrlRequest = impl.b9;
+	var onUrlChange = impl.b9;
+	var onUrlRequest = impl.ca;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		aN: function(sendToApp)
+		aO: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4073,9 +4073,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.bq === next.bq
-							&& curr.a4 === next.a4
-							&& curr.bm.a === next.bm.a
+							&& curr.br === next.br
+							&& curr.a5 === next.a5
+							&& curr.bn.a === next.bn.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4083,13 +4083,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		b2: function(flags)
+		b3: function(flags)
 		{
-			return A3(impl.b2, flags, _Browser_getUrl(), key);
+			return A3(impl.b3, flags, _Browser_getUrl(), key);
 		},
+		cl: impl.cl,
 		ck: impl.ck,
-		cj: impl.cj,
-		cg: impl.cg
+		ch: impl.ch
 	});
 }
 
@@ -4155,17 +4155,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { b$: 'hidden', bN: 'visibilitychange' }
+		? { b0: 'hidden', bO: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { b$: 'mozHidden', bN: 'mozvisibilitychange' }
+		? { b0: 'mozHidden', bO: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { b$: 'msHidden', bN: 'msvisibilitychange' }
+		? { b0: 'msHidden', bO: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { b$: 'webkitHidden', bN: 'webkitvisibilitychange' }
-		: { b$: 'hidden', bN: 'visibilitychange' };
+		? { b0: 'webkitHidden', bO: 'webkitvisibilitychange' }
+		: { b0: 'hidden', bO: 'visibilitychange' };
 }
 
 
@@ -4246,12 +4246,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		bx: _Browser_getScene(),
-		bD: {
-			bF: _Browser_window.pageXOffset,
-			bG: _Browser_window.pageYOffset,
-			bE: _Browser_doc.documentElement.clientWidth,
-			a3: _Browser_doc.documentElement.clientHeight
+		by: _Browser_getScene(),
+		bE: {
+			bG: _Browser_window.pageXOffset,
+			bH: _Browser_window.pageYOffset,
+			bF: _Browser_doc.documentElement.clientWidth,
+			a4: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4261,8 +4261,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		bE: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		a3: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		bF: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		a4: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4285,15 +4285,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			bx: {
-				bE: node.scrollWidth,
-				a3: node.scrollHeight
+			by: {
+				bF: node.scrollWidth,
+				a4: node.scrollHeight
 			},
-			bD: {
-				bF: node.scrollLeft,
-				bG: node.scrollTop,
-				bE: node.clientWidth,
-				a3: node.clientHeight
+			bE: {
+				bG: node.scrollLeft,
+				bH: node.scrollTop,
+				bF: node.clientWidth,
+				a4: node.clientHeight
 			}
 		};
 	});
@@ -4323,18 +4323,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			bx: _Browser_getScene(),
-			bD: {
-				bF: x,
-				bG: y,
-				bE: _Browser_doc.documentElement.clientWidth,
-				a3: _Browser_doc.documentElement.clientHeight
+			by: _Browser_getScene(),
+			bE: {
+				bG: x,
+				bH: y,
+				bF: _Browser_doc.documentElement.clientWidth,
+				a4: _Browser_doc.documentElement.clientHeight
 			},
-			bW: {
-				bF: x + rect.left,
-				bG: y + rect.top,
-				bE: rect.width,
-				a3: rect.height
+			bX: {
+				bG: x + rect.left,
+				bH: y + rect.top,
+				bF: rect.width,
+				a4: rect.height
 			}
 		};
 	});
@@ -4665,7 +4665,8 @@ var $elm$core$Set$toList = function (_v0) {
 };
 var $elm$core$Basics$GT = 2;
 var $elm$core$Maybe$Nothing = {$: 1};
-var $author$project$Main$initialModel = {T: 2, aj: 300, V: 1, W: 2, X: 4, G: $elm$core$Maybe$Nothing};
+var $elm$core$Basics$True = 0;
+var $author$project$Main$initialModel = {T: 2, ak: 300, V: 1, ad: true, W: 2, X: 4, G: $elm$core$Maybe$Nothing};
 var $elm$core$Result$Err = function (a) {
 	return {$: 1, a: a};
 };
@@ -5052,7 +5053,6 @@ var $elm$core$Array$initialize = F2(
 			return A5($elm$core$Array$initializeHelp, fn, initialFromIndex, len, _List_Nil, tail);
 		}
 	});
-var $elm$core$Basics$True = 0;
 var $elm$core$Result$isOk = function (result) {
 	if (!result.$) {
 		return true;
@@ -5089,7 +5089,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {a2: fragment, a4: host, bk: path, bm: port_, bq: protocol, br: query};
+		return {a3: fragment, a5: host, bl: path, bn: port_, br: protocol, bs: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5374,21 +5374,22 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $elm$browser$Browser$sandbox = function (impl) {
 	return _Browser_element(
 		{
-			b2: function (_v0) {
-				return _Utils_Tuple2(impl.b2, $elm$core$Platform$Cmd$none);
+			b3: function (_v0) {
+				return _Utils_Tuple2(impl.b3, $elm$core$Platform$Cmd$none);
 			},
-			cg: function (_v1) {
+			ch: function (_v1) {
 				return $elm$core$Platform$Sub$none;
 			},
-			cj: F2(
+			ck: F2(
 				function (msg, model) {
 					return _Utils_Tuple2(
-						A2(impl.cj, msg, model),
+						A2(impl.ck, msg, model),
 						$elm$core$Platform$Cmd$none);
 				}),
-			ck: impl.ck
+			cl: impl.cl
 		});
 };
+var $elm$core$Basics$not = _Basics_not;
 var $author$project$Main$update = F2(
 	function (msg, _v0) {
 		var model = _v0.a;
@@ -5399,7 +5400,7 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{aj: _int}),
+						{ak: _int}),
 					model2);
 			case 1:
 				var _float = msg.a;
@@ -5446,11 +5447,17 @@ var $author$project$Main$update = F2(
 							G: $elm$core$Maybe$Just(_int)
 						}),
 					model2);
+			case 7:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{ad: !model.ad}),
+					model2);
 			default:
 				return _Utils_Tuple2(model, model);
 		}
 	});
-var $author$project$Main$Generate = {$: 7};
+var $author$project$Main$Generate = {$: 8};
 var $author$project$Main$SetPersistence = function (a) {
 	return {$: 4, a: a};
 };
@@ -5469,6 +5476,7 @@ var $author$project$Main$SetSteps = function (a) {
 var $author$project$Main$SetThreshold = function (a) {
 	return {$: 6, a: a};
 };
+var $author$project$Main$ToggleSmooth = {$: 7};
 var $author$project$Main$ToggleThreshold = {$: 5};
 var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$button = _VirtualDom_node('button');
@@ -5490,8 +5498,34 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $author$project$Main$css = '\nhtml {\n  height:100%;\n}\nbody {\n  height:100%;\n  font-family:sans-serif;\n  display:flex;\n  margin:0;\n}\nh1,h2,h3,h4,h5,h6,h7{\n  font-weight:normal;\n}\n.header {\n  background:#333;\n  color:white;\n  padding: 1px;\n  text-align:center;\n}\n.header a {\n  color:white;\n}\n.main {\n  display:flex;\n  flex-direction:column;\n  flex-grow:1;\n}\n.image {\n  background-size: cover;\n  image-rendering:pixelated;\n  flex-grow:1;\n}\n.panel {\n  background:#eee;\n  display:inline-block;\n  padding:10px;\n  border-radius:5px;\n  position:absolute;\n  top:100px;\n  left:10px;\n}\nlabel {\n  display:flex;\n  align-items:center;\n  margin-bottom:10px;\n}\nlabel div {\n  width: 120px;\n}\nbutton {\n  font-size:16px;\n  padding:5px;\n  width:100%;\n}\n';
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $elm$core$Tuple$second = function (_v0) {
+	var y = _v0.b;
+	return y;
+};
+var $elm$html$Html$Attributes$classList = function (classes) {
+	return $elm$html$Html$Attributes$class(
+		A2(
+			$elm$core$String$join,
+			' ',
+			A2(
+				$elm$core$List$map,
+				$elm$core$Tuple$first,
+				A2($elm$core$List$filter, $elm$core$Tuple$second, classes))));
+};
+var $author$project$Main$css = '\nhtml {\n  height:100%;\n}\nbody {\n  height:100%;\n  font-family:sans-serif;\n  font-size:14px;\n  display:flex;\n  margin:0;\n}\nh1,h2,h3,h4,h5,h6,h7{\n  font-weight:normal;\n}\n.header {\n  background:#333;\n  color:white;\n  padding: 1px;\n  text-align:center;\n}\n.header a {\n  color:white;\n}\n.main {\n  display:flex;\n  flex-direction:column;\n  flex-grow:1;\n}\n.image {\n  background-size:cover;\n  background-position:center;\n  flex-grow:1;\n}\n.pixelated .image {\n  image-rendering:pixelated;\n}\nform {\n  background:#eee;\n  display:inline-block;\n  padding:10px;\n  border-radius:5px;\n  position:absolute;\n  top:100px;\n  left:10px;\n}\nfieldset {\n  margin-bottom:10px;\n}\nlabel {\n  display:flex;\n  align-items:center;\n}\nlabel:not(:first-of-type){\n  margin-top:10px;\n}\nlabel div {\n  width:130px;\n}\ninput[type="number"]{\n  width:50px;\n}\nbutton {\n  font-size:16px;\n  padding:5px;\n  width:100%;\n}\n.hint {\n  width:1px;\n  min-width:100%;\n  font-size:12px;\n  margin-bottom:10px;\n}\n';
 var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$html$Html$fieldset = _VirtualDom_node('fieldset');
 var $elm$json$Json$Decode$field = _Json_decodeField;
 var $elm$json$Json$Decode$at = F2(
 	function (fields, decoder) {
@@ -5541,13 +5575,17 @@ var $elm$html$Html$Attributes$step = function (n) {
 };
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $elm$html$Html$Attributes$title = $elm$html$Html$Attributes$stringProperty('title');
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
 var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
-var $author$project$Main$floatField = F3(
-	function (name, val, msg) {
+var $author$project$Main$floatField = F4(
+	function (name, val, msg, tooltip) {
 		return A2(
 			$elm$html$Html$label,
-			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$title(tooltip)
+				]),
 			_List_fromArray(
 				[
 					A2(
@@ -5577,6 +5615,7 @@ var $author$project$Main$floatField = F3(
 					_List_Nil)
 				]));
 	});
+var $elm$html$Html$form = _VirtualDom_node('form');
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$Attributes$href = function (url) {
 	return A2(
@@ -5704,8 +5743,8 @@ var $Herteby$simplex_noise$Simplex$getN2d = F6(
 	});
 var $Herteby$simplex_noise$Simplex$noise2d = F3(
 	function (_v0, xin, yin) {
-		var perm = _v0.ah;
-		var permMod12 = _v0.ai;
+		var perm = _v0.ai;
+		var permMod12 = _v0.aj;
 		var s = (xin + yin) * $Herteby$simplex_noise$Simplex$f2;
 		var j = $elm$core$Basics$floor(yin + s);
 		var jj = j & 255;
@@ -5765,13 +5804,13 @@ var $avh4$elm_color$Color$toRgba = function (_v0) {
 	var g = _v0.b;
 	var b = _v0.c;
 	var a = _v0.d;
-	return {aa: a, az: b, aF: g, aL: r};
+	return {aa: a, aA: b, aG: g, aM: r};
 };
 var $justgook$elm_image$Image$Color$colorToInt32 = function (color) {
 	var record = $avh4$elm_color$Color$toRgba(color);
-	var byte4 = $elm$core$Basics$round(record.aL * 255) << 24;
-	var byte3 = $elm$core$Basics$round(record.aF * 255) << 16;
-	var byte2 = $elm$core$Basics$round(record.az * 255) << 8;
+	var byte4 = $elm$core$Basics$round(record.aM * 255) << 24;
+	var byte3 = $elm$core$Basics$round(record.aG * 255) << 16;
+	var byte2 = $elm$core$Basics$round(record.aA * 255) << 8;
 	var byte1 = $elm$core$Basics$round(record.aa * 255);
 	return (byte4 | (byte3 | (byte1 | byte2))) >>> 0;
 };
@@ -5819,9 +5858,9 @@ var $justgook$elm_image$Image$fromList2d = function (l) {
 		$justgook$elm_image$Image$Internal$ImageData$List2d,
 		$justgook$elm_image$Image$Info$FromData(
 			{
-				ar: $justgook$elm_image$Image$Info$FromDataChannel4(3),
-				a3: $elm$core$List$length(l),
-				bE: A2(
+				as: $justgook$elm_image$Image$Info$FromDataChannel4(3),
+				a4: $elm$core$List$length(l),
+				bF: A2(
 					$elm$core$Maybe$withDefault,
 					0,
 					A2(
@@ -6054,13 +6093,6 @@ var $elm$core$Array$map = F2(
 			A2($elm$core$Elm$JsArray$map, helper, tree),
 			A2($elm$core$Elm$JsArray$map, func, tail));
 	});
-var $elm$core$Basics$modBy = _Basics_modBy;
-var $Herteby$simplex_noise$Simplex$generatePermMod12 = function (perm) {
-	return A2(
-		$elm$core$Array$map,
-		$elm$core$Basics$modBy(12),
-		perm);
-};
 var $elm$random$Random$Generator = $elm$core$Basics$identity;
 var $elm$random$Random$map = F2(
 	function (func, _v0) {
@@ -6074,11 +6106,6 @@ var $elm$random$Random$map = F2(
 				seed1);
 		};
 	});
-var $Herteby$simplex_noise$Simplex$reverseArray = function (array) {
-	return $elm$core$Array$fromList(
-		$elm$core$List$reverse(
-			$elm$core$Array$toList(array)));
-};
 var $elm$core$Bitwise$xor = _Bitwise_xor;
 var $elm$random$Random$peel = function (_v0) {
 	var state = _v0.a;
@@ -6211,6 +6238,7 @@ var $elm$core$Array$isEmpty = function (_v0) {
 	var len = _v0.a;
 	return !len;
 };
+var $elm$core$Basics$modBy = _Basics_modBy;
 var $owanturist$elm_union_find$UnionFind$QuickUnionPathCompression = F2(
 	function (a, b) {
 		return {$: 0, a: a, b: b};
@@ -6218,10 +6246,6 @@ var $owanturist$elm_union_find$UnionFind$QuickUnionPathCompression = F2(
 var $elm$core$Dict$RBEmpty_elm_builtin = {$: -2};
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
 var $owanturist$elm_union_find$UnionFind$quickUnionPathCompression = A2($owanturist$elm_union_find$UnionFind$QuickUnionPathCompression, 0, $elm$core$Dict$empty);
-var $elm$core$Tuple$second = function (_v0) {
-	var y = _v0.b;
-	return y;
-};
 var $elm$core$Dict$Black = 1;
 var $elm$core$Dict$RBNode_elm_builtin = F5(
 	function (a, b, c, d, e) {
@@ -6411,13 +6435,13 @@ var $elm_community$random_extra$Random$Array$shuffle = function (values) {
 var $Herteby$simplex_noise$Simplex$permutationTableGenerator = A2(
 	$elm$random$Random$map,
 	function (array) {
-		var perm = A2(
-			$elm$core$Array$append,
-			array,
-			$Herteby$simplex_noise$Simplex$reverseArray(array));
+		var perm = A2($elm$core$Array$append, array, array);
 		return {
-			ah: perm,
-			ai: $Herteby$simplex_noise$Simplex$generatePermMod12(perm)
+			ai: perm,
+			aj: A2(
+				$elm$core$Array$map,
+				$elm$core$Basics$remainderBy(12),
+				perm)
 		};
 	},
 	$elm_community$random_extra$Random$Array$shuffle(
@@ -6805,16 +6829,16 @@ var $elm$bytes$Bytes$Decode$succeed = function (a) {
 };
 var $elm$bytes$Bytes$Decode$unsignedInt8 = _Bytes_read_u8;
 var $danfishgold$base64_bytes$Decode$loopHelp = function (_v0) {
-	var remaining = _v0.av;
-	var string = _v0.aw;
+	var remaining = _v0.aw;
+	var string = _v0.ax;
 	if (remaining >= 18) {
 		return A2(
 			$elm$bytes$Bytes$Decode$map,
 			function (result) {
 				return $elm$bytes$Bytes$Decode$Loop(
 					{
-						av: remaining - 18,
-						aw: _Utils_ap(string, result)
+						aw: remaining - 18,
+						ax: _Utils_ap(string, result)
 					});
 			},
 			$danfishgold$base64_bytes$Decode$decode18Bytes);
@@ -6825,8 +6849,8 @@ var $danfishgold$base64_bytes$Decode$loopHelp = function (_v0) {
 					var combined = ((a << 16) | (b << 8)) | c;
 					return $elm$bytes$Bytes$Decode$Loop(
 						{
-							av: remaining - 3,
-							aw: _Utils_ap(
+							aw: remaining - 3,
+							ax: _Utils_ap(
 								string,
 								A2($danfishgold$base64_bytes$Decode$bitsToChars, combined, 0))
 						});
@@ -6865,7 +6889,7 @@ var $danfishgold$base64_bytes$Decode$loopHelp = function (_v0) {
 var $danfishgold$base64_bytes$Decode$decoder = function (width) {
 	return A2(
 		$elm$bytes$Bytes$Decode$loop,
-		{av: width, aw: ''},
+		{aw: width, ax: ''},
 		$danfishgold$base64_bytes$Decode$loopHelp);
 };
 var $elm$bytes$Bytes$width = _Bytes_width;
@@ -6879,7 +6903,7 @@ var $danfishgold$base64_bytes$Decode$fromBytes = function (bytes) {
 var $danfishgold$base64_bytes$Base64$fromBytes = $danfishgold$base64_bytes$Decode$fromBytes;
 var $justgook$elm_image$Image$Internal$ImageData$RGBA = 0;
 var $justgook$elm_image$Image$Internal$ImageData$RightDown = 0;
-var $justgook$elm_image$Image$Internal$ImageData$defaultOptions = {a1: 0, bi: 0};
+var $justgook$elm_image$Image$Internal$ImageData$defaultOptions = {a2: 0, bj: 0};
 var $elm$bytes$Bytes$Encode$encode = _Bytes_encode;
 var $elm$bytes$Bytes$Encode$Bytes = function (a) {
 	return {$: 10, a: a};
@@ -6929,8 +6953,8 @@ var $folkertdev$elm_flate$Checksum$Crc32$step = F2(
 		return c;
 	});
 var $folkertdev$elm_flate$Checksum$Crc32$crc32Help = function (_v0) {
-	var remaining = _v0.av;
-	var crc = _v0.as;
+	var remaining = _v0.aw;
+	var crc = _v0.at;
 	return (remaining >= 8) ? A3(
 		$elm$bytes$Bytes$Decode$map2,
 		F2(
@@ -6945,7 +6969,7 @@ var $folkertdev$elm_flate$Checksum$Crc32$crc32Help = function (_v0) {
 				var byte1 = 255 & (word1 >>> 24);
 				return $elm$bytes$Bytes$Decode$Loop(
 					{
-						as: A2(
+						at: A2(
 							$folkertdev$elm_flate$Checksum$Crc32$step,
 							byte8,
 							A2(
@@ -6967,7 +6991,7 @@ var $folkertdev$elm_flate$Checksum$Crc32$crc32Help = function (_v0) {
 													$folkertdev$elm_flate$Checksum$Crc32$step,
 													byte2,
 													A2($folkertdev$elm_flate$Checksum$Crc32$step, byte1, crc)))))))),
-						av: remaining - 8
+						aw: remaining - 8
 					});
 			}),
 		$elm$bytes$Bytes$Decode$unsignedInt32(1),
@@ -6976,8 +7000,8 @@ var $folkertdev$elm_flate$Checksum$Crc32$crc32Help = function (_v0) {
 		function (_byte) {
 			return $elm$bytes$Bytes$Decode$Loop(
 				{
-					as: A2($folkertdev$elm_flate$Checksum$Crc32$step, _byte, crc),
-					av: remaining - 1
+					at: A2($folkertdev$elm_flate$Checksum$Crc32$step, _byte, crc),
+					aw: remaining - 1
 				});
 		},
 		$elm$bytes$Bytes$Decode$unsignedInt8) : $elm$bytes$Bytes$Decode$succeed(
@@ -6993,7 +7017,7 @@ var $folkertdev$elm_flate$Checksum$Crc32$tinf_crc32 = function (buffer) {
 			$elm$bytes$Bytes$Decode$decode,
 			A2(
 				$elm$bytes$Bytes$Decode$loop,
-				{as: initialCrc, av: length},
+				{at: initialCrc, aw: length},
 				$folkertdev$elm_flate$Checksum$Crc32$crc32Help),
 			buffer));
 };
@@ -7058,7 +7082,7 @@ var $folkertdev$elm_flate$Flate$Dynamic = function (a) {
 var $folkertdev$elm_flate$Flate$WithWindowSize = function (a) {
 	return {$: 1, a: a};
 };
-var $folkertdev$elm_flate$Checksum$Adler32$a32 = {ay: 65521, bg: 5552};
+var $folkertdev$elm_flate$Checksum$Adler32$a32 = {az: 65521, bh: 5552};
 var $folkertdev$elm_flate$Checksum$Adler32$step8Bytes = F5(
 	function (remaining, s1, s2, word1, word2) {
 		var byte8 = 255 & word2;
@@ -7086,10 +7110,10 @@ var $folkertdev$elm_flate$Checksum$Adler32$step8Bytes = F5(
 		var s2b_3 = s2b_2 + s1b_3;
 		var s2b_4 = s2b_3 + s1b_4;
 		return $elm$bytes$Bytes$Decode$Loop(
-			{av: remaining - 8, r: s1b_4, s: s2b_4});
+			{aw: remaining - 8, r: s1b_4, s: s2b_4});
 	});
 var $folkertdev$elm_flate$Checksum$Adler32$processChunkHelp = function (_v0) {
-	var remaining = _v0.av;
+	var remaining = _v0.aw;
 	var s1 = _v0.r;
 	var s2 = _v0.s;
 	return (remaining >= 8) ? A3(
@@ -7100,20 +7124,20 @@ var $folkertdev$elm_flate$Checksum$Adler32$processChunkHelp = function (_v0) {
 		$elm$bytes$Bytes$Decode$map,
 		function (_byte) {
 			return $elm$bytes$Bytes$Decode$Loop(
-				{av: remaining - 1, r: s1 + _byte, s: (s1 + _byte) + s2});
+				{aw: remaining - 1, r: s1 + _byte, s: (s1 + _byte) + s2});
 		},
 		$elm$bytes$Bytes$Decode$unsignedInt8) : $elm$bytes$Bytes$Decode$succeed(
 		$elm$bytes$Bytes$Decode$Done(
-			{r: s1 % $folkertdev$elm_flate$Checksum$Adler32$a32.ay, s: s2 % $folkertdev$elm_flate$Checksum$Adler32$a32.ay})));
+			{r: s1 % $folkertdev$elm_flate$Checksum$Adler32$a32.az, s: s2 % $folkertdev$elm_flate$Checksum$Adler32$a32.az})));
 };
 var $folkertdev$elm_flate$Checksum$Adler32$processChunk = function (config) {
 	return A2($elm$bytes$Bytes$Decode$loop, config, $folkertdev$elm_flate$Checksum$Adler32$processChunkHelp);
 };
 var $folkertdev$elm_flate$Checksum$Adler32$chunkedFold = function (_v0) {
-	var bufferSize = _v0.aT;
-	var maxBlockSize = _v0.bd;
+	var bufferSize = _v0.aU;
+	var maxBlockSize = _v0.be;
 	var go = function (_v1) {
-		var remainingLength = _v1.aM;
+		var remainingLength = _v1.aN;
 		var s1 = _v1.r;
 		var s2 = _v1.s;
 		return (!remainingLength) ? $elm$bytes$Bytes$Decode$succeed(
@@ -7122,18 +7146,18 @@ var $folkertdev$elm_flate$Checksum$Adler32$chunkedFold = function (_v0) {
 			$elm$bytes$Bytes$Decode$map,
 			$elm$bytes$Bytes$Decode$Done,
 			$folkertdev$elm_flate$Checksum$Adler32$processChunk(
-				{av: remainingLength, r: s1, s: s2})) : A2(
+				{aw: remainingLength, r: s1, s: s2})) : A2(
 			$elm$bytes$Bytes$Decode$map,
 			function (result) {
 				return $elm$bytes$Bytes$Decode$Loop(
-					{aM: remainingLength - maxBlockSize, r: result.r, s: result.s});
+					{aN: remainingLength - maxBlockSize, r: result.r, s: result.s});
 			},
 			$folkertdev$elm_flate$Checksum$Adler32$processChunk(
-				{av: maxBlockSize, r: s1, s: s2})));
+				{aw: maxBlockSize, r: s1, s: s2})));
 	};
 	return A2(
 		$elm$bytes$Bytes$Decode$loop,
-		{aM: bufferSize, r: 1, s: 0},
+		{aN: bufferSize, r: 1, s: 0},
 		go);
 };
 var $folkertdev$elm_flate$Checksum$Adler32$adler32 = function (buffer) {
@@ -7141,8 +7165,8 @@ var $folkertdev$elm_flate$Checksum$Adler32$adler32 = function (buffer) {
 		$elm$bytes$Bytes$Decode$decode,
 		$folkertdev$elm_flate$Checksum$Adler32$chunkedFold(
 			{
-				aT: $elm$bytes$Bytes$width(buffer),
-				bd: $folkertdev$elm_flate$Checksum$Adler32$a32.bg
+				aU: $elm$bytes$Bytes$width(buffer),
+				be: $folkertdev$elm_flate$Checksum$Adler32$a32.bh
 			}),
 		buffer);
 	if (_v0.$ === 1) {
@@ -7750,7 +7774,7 @@ var $folkertdev$elm_flate$Huffman$new = function (n) {
 		$elm$core$Array$repeat,
 		n,
 		$folkertdev$elm_flate$Huffman$codeFromRecord(
-			{a: 0, bE: 0}));
+			{a: 0, bF: 0}));
 };
 var $elm$core$Bitwise$shiftRightBy = _Bitwise_shiftRightBy;
 var $folkertdev$elm_flate$Huffman$inverseEndianLoop = F4(
@@ -7773,10 +7797,10 @@ var $folkertdev$elm_flate$Huffman$inverseEndianLoop = F4(
 		}
 	});
 var $folkertdev$elm_flate$Huffman$inverseEndian = function (_v0) {
-	var width = _v0.bE;
+	var width = _v0.bF;
 	var bits = _v0.a;
 	var inverseBits = A4($folkertdev$elm_flate$Huffman$inverseEndianLoop, 0, width, bits, 0);
-	return {a: inverseBits, bE: width};
+	return {a: inverseBits, bF: width};
 };
 var $folkertdev$elm_flate$Huffman$setMapping = F3(
 	function (symbol, code, _v0) {
@@ -7813,7 +7837,7 @@ var $folkertdev$elm_flate$Huffman$restoreCanonicalHuffmanCodes = F2(
 				var prevWidth = _v2.b;
 				var currentTree = _v2.c;
 				var newBits = code << (bitWidth - prevWidth);
-				var nextCode = {a: newBits, bE: bitWidth};
+				var nextCode = {a: newBits, bF: bitWidth};
 				return _Utils_Tuple3(
 					newBits + 1,
 					bitWidth,
@@ -8477,7 +8501,7 @@ var $folkertdev$elm_flate$Experimental$ByteArray$fromBytes = function (buffer) {
 };
 var $folkertdev$elm_flate$LZ77$encodeWithOptions = F2(
 	function (_v0, buffer) {
-		var windowSize = _v0.cl;
+		var windowSize = _v0.cm;
 		return A2(
 			$folkertdev$elm_flate$LZ77$flush,
 			windowSize,
@@ -8556,7 +8580,7 @@ var $folkertdev$elm_flate$Deflate$Internal$compress = F2(
 					$folkertdev$elm_flate$Deflate$Internal$codeToSymbol,
 					A2(
 						$folkertdev$elm_flate$LZ77$encodeWithOptions,
-						{cl: windowSize},
+						{cm: windowSize},
 						buf)));
 		}
 	});
@@ -8587,7 +8611,7 @@ var $folkertdev$elm_flate$Huffman$encode = F2(
 		if (_v1.$ === 1) {
 			return A2($folkertdev$elm_flate$Deflate$BitWriter$writeBits, 0, 0);
 		} else {
-			var width = _v1.a.bE;
+			var width = _v1.a.bF;
 			var bits = _v1.a.a;
 			return A2($folkertdev$elm_flate$Deflate$BitWriter$writeBits, width, bits);
 		}
@@ -8727,7 +8751,7 @@ var $folkertdev$elm_flate$Deflate$Symbol$calculateCodes = function (runLengths) 
 	return A3($elm$core$Array$foldl, folder, $elm$core$Array$empty, runLengths);
 };
 var $folkertdev$elm_flate$Huffman$getWidth = function (_v0) {
-	var width = _v0.bE;
+	var width = _v0.bF;
 	return width;
 };
 var $folkertdev$elm_flate$Huffman$lookup = F2(
@@ -8992,7 +9016,7 @@ var $folkertdev$elm_flate$Huffman$usedMaxSymbol = function (_v0) {
 			$folkertdev$elm_flate$Huffman$positionFromTheEnd,
 			function (_v1) {
 				var value = _v1;
-				return value.bE > 0;
+				return value.bF > 0;
 			},
 			array));
 };
@@ -9520,328 +9544,328 @@ var $folkertdev$elm_flate$Huffman$hardcodedStaticHuffmanTree = {
 	J: $folkertdev$elm_flate$Huffman$fromList(
 		_List_fromArray(
 			[
-				{a: 0, bE: 5},
-				{a: 16, bE: 5},
-				{a: 8, bE: 5},
-				{a: 24, bE: 5},
-				{a: 4, bE: 5},
-				{a: 20, bE: 5},
-				{a: 12, bE: 5},
-				{a: 28, bE: 5},
-				{a: 2, bE: 5},
-				{a: 18, bE: 5},
-				{a: 10, bE: 5},
-				{a: 26, bE: 5},
-				{a: 6, bE: 5},
-				{a: 22, bE: 5},
-				{a: 14, bE: 5},
-				{a: 30, bE: 5},
-				{a: 1, bE: 5},
-				{a: 17, bE: 5},
-				{a: 9, bE: 5},
-				{a: 25, bE: 5},
-				{a: 5, bE: 5},
-				{a: 21, bE: 5},
-				{a: 13, bE: 5},
-				{a: 29, bE: 5},
-				{a: 3, bE: 5},
-				{a: 19, bE: 5},
-				{a: 11, bE: 5},
-				{a: 27, bE: 5},
-				{a: 7, bE: 5},
-				{a: 23, bE: 5}
+				{a: 0, bF: 5},
+				{a: 16, bF: 5},
+				{a: 8, bF: 5},
+				{a: 24, bF: 5},
+				{a: 4, bF: 5},
+				{a: 20, bF: 5},
+				{a: 12, bF: 5},
+				{a: 28, bF: 5},
+				{a: 2, bF: 5},
+				{a: 18, bF: 5},
+				{a: 10, bF: 5},
+				{a: 26, bF: 5},
+				{a: 6, bF: 5},
+				{a: 22, bF: 5},
+				{a: 14, bF: 5},
+				{a: 30, bF: 5},
+				{a: 1, bF: 5},
+				{a: 17, bF: 5},
+				{a: 9, bF: 5},
+				{a: 25, bF: 5},
+				{a: 5, bF: 5},
+				{a: 21, bF: 5},
+				{a: 13, bF: 5},
+				{a: 29, bF: 5},
+				{a: 3, bF: 5},
+				{a: 19, bF: 5},
+				{a: 11, bF: 5},
+				{a: 27, bF: 5},
+				{a: 7, bF: 5},
+				{a: 23, bF: 5}
 			])),
 	R: $folkertdev$elm_flate$Huffman$fromList(
 		_List_fromArray(
 			[
-				{a: 12, bE: 8},
-				{a: 140, bE: 8},
-				{a: 76, bE: 8},
-				{a: 204, bE: 8},
-				{a: 44, bE: 8},
-				{a: 172, bE: 8},
-				{a: 108, bE: 8},
-				{a: 236, bE: 8},
-				{a: 28, bE: 8},
-				{a: 156, bE: 8},
-				{a: 92, bE: 8},
-				{a: 220, bE: 8},
-				{a: 60, bE: 8},
-				{a: 188, bE: 8},
-				{a: 124, bE: 8},
-				{a: 252, bE: 8},
-				{a: 2, bE: 8},
-				{a: 130, bE: 8},
-				{a: 66, bE: 8},
-				{a: 194, bE: 8},
-				{a: 34, bE: 8},
-				{a: 162, bE: 8},
-				{a: 98, bE: 8},
-				{a: 226, bE: 8},
-				{a: 18, bE: 8},
-				{a: 146, bE: 8},
-				{a: 82, bE: 8},
-				{a: 210, bE: 8},
-				{a: 50, bE: 8},
-				{a: 178, bE: 8},
-				{a: 114, bE: 8},
-				{a: 242, bE: 8},
-				{a: 10, bE: 8},
-				{a: 138, bE: 8},
-				{a: 74, bE: 8},
-				{a: 202, bE: 8},
-				{a: 42, bE: 8},
-				{a: 170, bE: 8},
-				{a: 106, bE: 8},
-				{a: 234, bE: 8},
-				{a: 26, bE: 8},
-				{a: 154, bE: 8},
-				{a: 90, bE: 8},
-				{a: 218, bE: 8},
-				{a: 58, bE: 8},
-				{a: 186, bE: 8},
-				{a: 122, bE: 8},
-				{a: 250, bE: 8},
-				{a: 6, bE: 8},
-				{a: 134, bE: 8},
-				{a: 70, bE: 8},
-				{a: 198, bE: 8},
-				{a: 38, bE: 8},
-				{a: 166, bE: 8},
-				{a: 102, bE: 8},
-				{a: 230, bE: 8},
-				{a: 22, bE: 8},
-				{a: 150, bE: 8},
-				{a: 86, bE: 8},
-				{a: 214, bE: 8},
-				{a: 54, bE: 8},
-				{a: 182, bE: 8},
-				{a: 118, bE: 8},
-				{a: 246, bE: 8},
-				{a: 14, bE: 8},
-				{a: 142, bE: 8},
-				{a: 78, bE: 8},
-				{a: 206, bE: 8},
-				{a: 46, bE: 8},
-				{a: 174, bE: 8},
-				{a: 110, bE: 8},
-				{a: 238, bE: 8},
-				{a: 30, bE: 8},
-				{a: 158, bE: 8},
-				{a: 94, bE: 8},
-				{a: 222, bE: 8},
-				{a: 62, bE: 8},
-				{a: 190, bE: 8},
-				{a: 126, bE: 8},
-				{a: 254, bE: 8},
-				{a: 1, bE: 8},
-				{a: 129, bE: 8},
-				{a: 65, bE: 8},
-				{a: 193, bE: 8},
-				{a: 33, bE: 8},
-				{a: 161, bE: 8},
-				{a: 97, bE: 8},
-				{a: 225, bE: 8},
-				{a: 17, bE: 8},
-				{a: 145, bE: 8},
-				{a: 81, bE: 8},
-				{a: 209, bE: 8},
-				{a: 49, bE: 8},
-				{a: 177, bE: 8},
-				{a: 113, bE: 8},
-				{a: 241, bE: 8},
-				{a: 9, bE: 8},
-				{a: 137, bE: 8},
-				{a: 73, bE: 8},
-				{a: 201, bE: 8},
-				{a: 41, bE: 8},
-				{a: 169, bE: 8},
-				{a: 105, bE: 8},
-				{a: 233, bE: 8},
-				{a: 25, bE: 8},
-				{a: 153, bE: 8},
-				{a: 89, bE: 8},
-				{a: 217, bE: 8},
-				{a: 57, bE: 8},
-				{a: 185, bE: 8},
-				{a: 121, bE: 8},
-				{a: 249, bE: 8},
-				{a: 5, bE: 8},
-				{a: 133, bE: 8},
-				{a: 69, bE: 8},
-				{a: 197, bE: 8},
-				{a: 37, bE: 8},
-				{a: 165, bE: 8},
-				{a: 101, bE: 8},
-				{a: 229, bE: 8},
-				{a: 21, bE: 8},
-				{a: 149, bE: 8},
-				{a: 85, bE: 8},
-				{a: 213, bE: 8},
-				{a: 53, bE: 8},
-				{a: 181, bE: 8},
-				{a: 117, bE: 8},
-				{a: 245, bE: 8},
-				{a: 13, bE: 8},
-				{a: 141, bE: 8},
-				{a: 77, bE: 8},
-				{a: 205, bE: 8},
-				{a: 45, bE: 8},
-				{a: 173, bE: 8},
-				{a: 109, bE: 8},
-				{a: 237, bE: 8},
-				{a: 29, bE: 8},
-				{a: 157, bE: 8},
-				{a: 93, bE: 8},
-				{a: 221, bE: 8},
-				{a: 61, bE: 8},
-				{a: 189, bE: 8},
-				{a: 125, bE: 8},
-				{a: 253, bE: 8},
-				{a: 19, bE: 9},
-				{a: 275, bE: 9},
-				{a: 147, bE: 9},
-				{a: 403, bE: 9},
-				{a: 83, bE: 9},
-				{a: 339, bE: 9},
-				{a: 211, bE: 9},
-				{a: 467, bE: 9},
-				{a: 51, bE: 9},
-				{a: 307, bE: 9},
-				{a: 179, bE: 9},
-				{a: 435, bE: 9},
-				{a: 115, bE: 9},
-				{a: 371, bE: 9},
-				{a: 243, bE: 9},
-				{a: 499, bE: 9},
-				{a: 11, bE: 9},
-				{a: 267, bE: 9},
-				{a: 139, bE: 9},
-				{a: 395, bE: 9},
-				{a: 75, bE: 9},
-				{a: 331, bE: 9},
-				{a: 203, bE: 9},
-				{a: 459, bE: 9},
-				{a: 43, bE: 9},
-				{a: 299, bE: 9},
-				{a: 171, bE: 9},
-				{a: 427, bE: 9},
-				{a: 107, bE: 9},
-				{a: 363, bE: 9},
-				{a: 235, bE: 9},
-				{a: 491, bE: 9},
-				{a: 27, bE: 9},
-				{a: 283, bE: 9},
-				{a: 155, bE: 9},
-				{a: 411, bE: 9},
-				{a: 91, bE: 9},
-				{a: 347, bE: 9},
-				{a: 219, bE: 9},
-				{a: 475, bE: 9},
-				{a: 59, bE: 9},
-				{a: 315, bE: 9},
-				{a: 187, bE: 9},
-				{a: 443, bE: 9},
-				{a: 123, bE: 9},
-				{a: 379, bE: 9},
-				{a: 251, bE: 9},
-				{a: 507, bE: 9},
-				{a: 7, bE: 9},
-				{a: 263, bE: 9},
-				{a: 135, bE: 9},
-				{a: 391, bE: 9},
-				{a: 71, bE: 9},
-				{a: 327, bE: 9},
-				{a: 199, bE: 9},
-				{a: 455, bE: 9},
-				{a: 39, bE: 9},
-				{a: 295, bE: 9},
-				{a: 167, bE: 9},
-				{a: 423, bE: 9},
-				{a: 103, bE: 9},
-				{a: 359, bE: 9},
-				{a: 231, bE: 9},
-				{a: 487, bE: 9},
-				{a: 23, bE: 9},
-				{a: 279, bE: 9},
-				{a: 151, bE: 9},
-				{a: 407, bE: 9},
-				{a: 87, bE: 9},
-				{a: 343, bE: 9},
-				{a: 215, bE: 9},
-				{a: 471, bE: 9},
-				{a: 55, bE: 9},
-				{a: 311, bE: 9},
-				{a: 183, bE: 9},
-				{a: 439, bE: 9},
-				{a: 119, bE: 9},
-				{a: 375, bE: 9},
-				{a: 247, bE: 9},
-				{a: 503, bE: 9},
-				{a: 15, bE: 9},
-				{a: 271, bE: 9},
-				{a: 143, bE: 9},
-				{a: 399, bE: 9},
-				{a: 79, bE: 9},
-				{a: 335, bE: 9},
-				{a: 207, bE: 9},
-				{a: 463, bE: 9},
-				{a: 47, bE: 9},
-				{a: 303, bE: 9},
-				{a: 175, bE: 9},
-				{a: 431, bE: 9},
-				{a: 111, bE: 9},
-				{a: 367, bE: 9},
-				{a: 239, bE: 9},
-				{a: 495, bE: 9},
-				{a: 31, bE: 9},
-				{a: 287, bE: 9},
-				{a: 159, bE: 9},
-				{a: 415, bE: 9},
-				{a: 95, bE: 9},
-				{a: 351, bE: 9},
-				{a: 223, bE: 9},
-				{a: 479, bE: 9},
-				{a: 63, bE: 9},
-				{a: 319, bE: 9},
-				{a: 191, bE: 9},
-				{a: 447, bE: 9},
-				{a: 127, bE: 9},
-				{a: 383, bE: 9},
-				{a: 255, bE: 9},
-				{a: 511, bE: 9},
-				{a: 0, bE: 7},
-				{a: 64, bE: 7},
-				{a: 32, bE: 7},
-				{a: 96, bE: 7},
-				{a: 16, bE: 7},
-				{a: 80, bE: 7},
-				{a: 48, bE: 7},
-				{a: 112, bE: 7},
-				{a: 8, bE: 7},
-				{a: 72, bE: 7},
-				{a: 40, bE: 7},
-				{a: 104, bE: 7},
-				{a: 24, bE: 7},
-				{a: 88, bE: 7},
-				{a: 56, bE: 7},
-				{a: 120, bE: 7},
-				{a: 4, bE: 7},
-				{a: 68, bE: 7},
-				{a: 36, bE: 7},
-				{a: 100, bE: 7},
-				{a: 20, bE: 7},
-				{a: 84, bE: 7},
-				{a: 52, bE: 7},
-				{a: 116, bE: 7},
-				{a: 3, bE: 8},
-				{a: 131, bE: 8},
-				{a: 67, bE: 8},
-				{a: 195, bE: 8},
-				{a: 35, bE: 8},
-				{a: 163, bE: 8},
-				{a: 99, bE: 8},
-				{a: 227, bE: 8}
+				{a: 12, bF: 8},
+				{a: 140, bF: 8},
+				{a: 76, bF: 8},
+				{a: 204, bF: 8},
+				{a: 44, bF: 8},
+				{a: 172, bF: 8},
+				{a: 108, bF: 8},
+				{a: 236, bF: 8},
+				{a: 28, bF: 8},
+				{a: 156, bF: 8},
+				{a: 92, bF: 8},
+				{a: 220, bF: 8},
+				{a: 60, bF: 8},
+				{a: 188, bF: 8},
+				{a: 124, bF: 8},
+				{a: 252, bF: 8},
+				{a: 2, bF: 8},
+				{a: 130, bF: 8},
+				{a: 66, bF: 8},
+				{a: 194, bF: 8},
+				{a: 34, bF: 8},
+				{a: 162, bF: 8},
+				{a: 98, bF: 8},
+				{a: 226, bF: 8},
+				{a: 18, bF: 8},
+				{a: 146, bF: 8},
+				{a: 82, bF: 8},
+				{a: 210, bF: 8},
+				{a: 50, bF: 8},
+				{a: 178, bF: 8},
+				{a: 114, bF: 8},
+				{a: 242, bF: 8},
+				{a: 10, bF: 8},
+				{a: 138, bF: 8},
+				{a: 74, bF: 8},
+				{a: 202, bF: 8},
+				{a: 42, bF: 8},
+				{a: 170, bF: 8},
+				{a: 106, bF: 8},
+				{a: 234, bF: 8},
+				{a: 26, bF: 8},
+				{a: 154, bF: 8},
+				{a: 90, bF: 8},
+				{a: 218, bF: 8},
+				{a: 58, bF: 8},
+				{a: 186, bF: 8},
+				{a: 122, bF: 8},
+				{a: 250, bF: 8},
+				{a: 6, bF: 8},
+				{a: 134, bF: 8},
+				{a: 70, bF: 8},
+				{a: 198, bF: 8},
+				{a: 38, bF: 8},
+				{a: 166, bF: 8},
+				{a: 102, bF: 8},
+				{a: 230, bF: 8},
+				{a: 22, bF: 8},
+				{a: 150, bF: 8},
+				{a: 86, bF: 8},
+				{a: 214, bF: 8},
+				{a: 54, bF: 8},
+				{a: 182, bF: 8},
+				{a: 118, bF: 8},
+				{a: 246, bF: 8},
+				{a: 14, bF: 8},
+				{a: 142, bF: 8},
+				{a: 78, bF: 8},
+				{a: 206, bF: 8},
+				{a: 46, bF: 8},
+				{a: 174, bF: 8},
+				{a: 110, bF: 8},
+				{a: 238, bF: 8},
+				{a: 30, bF: 8},
+				{a: 158, bF: 8},
+				{a: 94, bF: 8},
+				{a: 222, bF: 8},
+				{a: 62, bF: 8},
+				{a: 190, bF: 8},
+				{a: 126, bF: 8},
+				{a: 254, bF: 8},
+				{a: 1, bF: 8},
+				{a: 129, bF: 8},
+				{a: 65, bF: 8},
+				{a: 193, bF: 8},
+				{a: 33, bF: 8},
+				{a: 161, bF: 8},
+				{a: 97, bF: 8},
+				{a: 225, bF: 8},
+				{a: 17, bF: 8},
+				{a: 145, bF: 8},
+				{a: 81, bF: 8},
+				{a: 209, bF: 8},
+				{a: 49, bF: 8},
+				{a: 177, bF: 8},
+				{a: 113, bF: 8},
+				{a: 241, bF: 8},
+				{a: 9, bF: 8},
+				{a: 137, bF: 8},
+				{a: 73, bF: 8},
+				{a: 201, bF: 8},
+				{a: 41, bF: 8},
+				{a: 169, bF: 8},
+				{a: 105, bF: 8},
+				{a: 233, bF: 8},
+				{a: 25, bF: 8},
+				{a: 153, bF: 8},
+				{a: 89, bF: 8},
+				{a: 217, bF: 8},
+				{a: 57, bF: 8},
+				{a: 185, bF: 8},
+				{a: 121, bF: 8},
+				{a: 249, bF: 8},
+				{a: 5, bF: 8},
+				{a: 133, bF: 8},
+				{a: 69, bF: 8},
+				{a: 197, bF: 8},
+				{a: 37, bF: 8},
+				{a: 165, bF: 8},
+				{a: 101, bF: 8},
+				{a: 229, bF: 8},
+				{a: 21, bF: 8},
+				{a: 149, bF: 8},
+				{a: 85, bF: 8},
+				{a: 213, bF: 8},
+				{a: 53, bF: 8},
+				{a: 181, bF: 8},
+				{a: 117, bF: 8},
+				{a: 245, bF: 8},
+				{a: 13, bF: 8},
+				{a: 141, bF: 8},
+				{a: 77, bF: 8},
+				{a: 205, bF: 8},
+				{a: 45, bF: 8},
+				{a: 173, bF: 8},
+				{a: 109, bF: 8},
+				{a: 237, bF: 8},
+				{a: 29, bF: 8},
+				{a: 157, bF: 8},
+				{a: 93, bF: 8},
+				{a: 221, bF: 8},
+				{a: 61, bF: 8},
+				{a: 189, bF: 8},
+				{a: 125, bF: 8},
+				{a: 253, bF: 8},
+				{a: 19, bF: 9},
+				{a: 275, bF: 9},
+				{a: 147, bF: 9},
+				{a: 403, bF: 9},
+				{a: 83, bF: 9},
+				{a: 339, bF: 9},
+				{a: 211, bF: 9},
+				{a: 467, bF: 9},
+				{a: 51, bF: 9},
+				{a: 307, bF: 9},
+				{a: 179, bF: 9},
+				{a: 435, bF: 9},
+				{a: 115, bF: 9},
+				{a: 371, bF: 9},
+				{a: 243, bF: 9},
+				{a: 499, bF: 9},
+				{a: 11, bF: 9},
+				{a: 267, bF: 9},
+				{a: 139, bF: 9},
+				{a: 395, bF: 9},
+				{a: 75, bF: 9},
+				{a: 331, bF: 9},
+				{a: 203, bF: 9},
+				{a: 459, bF: 9},
+				{a: 43, bF: 9},
+				{a: 299, bF: 9},
+				{a: 171, bF: 9},
+				{a: 427, bF: 9},
+				{a: 107, bF: 9},
+				{a: 363, bF: 9},
+				{a: 235, bF: 9},
+				{a: 491, bF: 9},
+				{a: 27, bF: 9},
+				{a: 283, bF: 9},
+				{a: 155, bF: 9},
+				{a: 411, bF: 9},
+				{a: 91, bF: 9},
+				{a: 347, bF: 9},
+				{a: 219, bF: 9},
+				{a: 475, bF: 9},
+				{a: 59, bF: 9},
+				{a: 315, bF: 9},
+				{a: 187, bF: 9},
+				{a: 443, bF: 9},
+				{a: 123, bF: 9},
+				{a: 379, bF: 9},
+				{a: 251, bF: 9},
+				{a: 507, bF: 9},
+				{a: 7, bF: 9},
+				{a: 263, bF: 9},
+				{a: 135, bF: 9},
+				{a: 391, bF: 9},
+				{a: 71, bF: 9},
+				{a: 327, bF: 9},
+				{a: 199, bF: 9},
+				{a: 455, bF: 9},
+				{a: 39, bF: 9},
+				{a: 295, bF: 9},
+				{a: 167, bF: 9},
+				{a: 423, bF: 9},
+				{a: 103, bF: 9},
+				{a: 359, bF: 9},
+				{a: 231, bF: 9},
+				{a: 487, bF: 9},
+				{a: 23, bF: 9},
+				{a: 279, bF: 9},
+				{a: 151, bF: 9},
+				{a: 407, bF: 9},
+				{a: 87, bF: 9},
+				{a: 343, bF: 9},
+				{a: 215, bF: 9},
+				{a: 471, bF: 9},
+				{a: 55, bF: 9},
+				{a: 311, bF: 9},
+				{a: 183, bF: 9},
+				{a: 439, bF: 9},
+				{a: 119, bF: 9},
+				{a: 375, bF: 9},
+				{a: 247, bF: 9},
+				{a: 503, bF: 9},
+				{a: 15, bF: 9},
+				{a: 271, bF: 9},
+				{a: 143, bF: 9},
+				{a: 399, bF: 9},
+				{a: 79, bF: 9},
+				{a: 335, bF: 9},
+				{a: 207, bF: 9},
+				{a: 463, bF: 9},
+				{a: 47, bF: 9},
+				{a: 303, bF: 9},
+				{a: 175, bF: 9},
+				{a: 431, bF: 9},
+				{a: 111, bF: 9},
+				{a: 367, bF: 9},
+				{a: 239, bF: 9},
+				{a: 495, bF: 9},
+				{a: 31, bF: 9},
+				{a: 287, bF: 9},
+				{a: 159, bF: 9},
+				{a: 415, bF: 9},
+				{a: 95, bF: 9},
+				{a: 351, bF: 9},
+				{a: 223, bF: 9},
+				{a: 479, bF: 9},
+				{a: 63, bF: 9},
+				{a: 319, bF: 9},
+				{a: 191, bF: 9},
+				{a: 447, bF: 9},
+				{a: 127, bF: 9},
+				{a: 383, bF: 9},
+				{a: 255, bF: 9},
+				{a: 511, bF: 9},
+				{a: 0, bF: 7},
+				{a: 64, bF: 7},
+				{a: 32, bF: 7},
+				{a: 96, bF: 7},
+				{a: 16, bF: 7},
+				{a: 80, bF: 7},
+				{a: 48, bF: 7},
+				{a: 112, bF: 7},
+				{a: 8, bF: 7},
+				{a: 72, bF: 7},
+				{a: 40, bF: 7},
+				{a: 104, bF: 7},
+				{a: 24, bF: 7},
+				{a: 88, bF: 7},
+				{a: 56, bF: 7},
+				{a: 120, bF: 7},
+				{a: 4, bF: 7},
+				{a: 68, bF: 7},
+				{a: 36, bF: 7},
+				{a: 100, bF: 7},
+				{a: 20, bF: 7},
+				{a: 84, bF: 7},
+				{a: 52, bF: 7},
+				{a: 116, bF: 7},
+				{a: 3, bF: 8},
+				{a: 131, bF: 8},
+				{a: 67, bF: 8},
+				{a: 195, bF: 8},
+				{a: 35, bF: 8},
+				{a: 163, bF: 8},
+				{a: 99, bF: 8},
+				{a: 227, bF: 8}
 			]))
 };
 var $folkertdev$elm_flate$Deflate$Internal$encodeCompressStatic = F3(
@@ -10001,7 +10025,7 @@ var $justgook$elm_image$Image$Internal$PNG$encodePixel32 = F2(
 	});
 var $justgook$elm_image$Image$Internal$PNG$encodeIDAT = F2(
 	function (_v0, arr) {
-		var order = _v0.bi;
+		var order = _v0.bj;
 		var scanLineFilter = $elm$bytes$Bytes$Encode$unsignedInt8(1);
 		var _v1 = function () {
 			switch (order) {
@@ -10052,7 +10076,7 @@ var $justgook$elm_image$Image$Internal$PNG$encodeIDAT = F2(
 	});
 var $justgook$elm_image$Image$Internal$PNG$encodeIHDR = F3(
 	function (width, height, _v0) {
-		var format = _v0.a1;
+		var format = _v0.a2;
 		var interlace = 0;
 		var _v1 = function () {
 			switch (format) {
@@ -10095,21 +10119,21 @@ var $justgook$elm_image$Image$Internal$PNG$encodeSignature = $elm$bytes$Bytes$En
 var $justgook$elm_image$Image$Info$dimensions = function (meta) {
 	switch (meta.$) {
 		case 0:
-			var width = meta.a.bE;
-			var height = meta.a.a3;
-			return {a3: height, bE: width};
+			var width = meta.a.bF;
+			var height = meta.a.a4;
+			return {a4: height, bF: width};
 		case 1:
-			var width = meta.a.bE;
-			var height = meta.a.a3;
-			return {a3: height, bE: width};
+			var width = meta.a.bF;
+			var height = meta.a.a4;
+			return {a4: height, bF: width};
 		case 2:
-			var width = meta.a.bE;
-			var height = meta.a.a3;
-			return {a3: height, bE: width};
+			var width = meta.a.bF;
+			var height = meta.a.a4;
+			return {a4: height, bF: width};
 		default:
-			var width = meta.a.bE;
-			var height = meta.a.a3;
-			return {a3: height, bE: width};
+			var width = meta.a.bF;
+			var height = meta.a.a4;
+			return {a4: height, bF: width};
 	}
 };
 var $justgook$elm_image$Image$Internal$ImageData$splitAt = F2(
@@ -10229,7 +10253,7 @@ var $justgook$elm_image$Image$Internal$ImageData$toArray2d = function (image) {
 				var l = image.b;
 				return A3(
 					$justgook$elm_image$Image$Internal$ImageData$fromList,
-					$justgook$elm_image$Image$Info$dimensions(meta).bE,
+					$justgook$elm_image$Image$Info$dimensions(meta).bF,
 					l,
 					$elm$core$Array$fromList(
 						_List_fromArray(
@@ -10246,7 +10270,7 @@ var $justgook$elm_image$Image$Internal$ImageData$toArray2d = function (image) {
 				var arr = image.b;
 				return A3(
 					$justgook$elm_image$Image$Internal$ImageData$fromArray,
-					$justgook$elm_image$Image$Info$dimensions(meta).bE,
+					$justgook$elm_image$Image$Info$dimensions(meta).bF,
 					arr,
 					$elm$core$Array$empty);
 			case 3:
@@ -10416,7 +10440,7 @@ var $justgook$elm_image$Image$Internal$Pixel$toBit32 = function (image) {
 	var _v0 = $justgook$elm_image$Image$Internal$ImageData$getInfo(image);
 	switch (_v0.$) {
 		case 0:
-			var color = _v0.a.ar;
+			var color = _v0.a.as;
 			switch (color.$) {
 				case 0:
 					return image;
@@ -10430,7 +10454,7 @@ var $justgook$elm_image$Image$Internal$Pixel$toBit32 = function (image) {
 					return image;
 			}
 		case 1:
-			var bitsPerPixel = _v0.a.bK;
+			var bitsPerPixel = _v0.a.bL;
 			switch (bitsPerPixel) {
 				case 0:
 					return A2($justgook$elm_image$Image$Internal$ImageData$map, $justgook$elm_image$Image$Internal$Pixel$px8to32, image);
@@ -10444,7 +10468,7 @@ var $justgook$elm_image$Image$Internal$Pixel$toBit32 = function (image) {
 		case 2:
 			return image;
 		default:
-			var color = _v0.a.ar;
+			var color = _v0.a.as;
 			switch (color.$) {
 				case 0:
 					return image;
@@ -10469,7 +10493,7 @@ var $justgook$elm_image$Image$toPngUrl = A2(
 			$elm$core$Maybe$withDefault(''),
 			$elm$core$Basics$append('data:image/png;base64,'))));
 var $author$project$Main$image = function (_v0) {
-	var resolution = _v0.aj;
+	var resolution = _v0.ak;
 	var scale = _v0.V;
 	var steps = _v0.X;
 	var stepSize = _v0.W;
@@ -10495,9 +10519,9 @@ var $author$project$Main$image = function (_v0) {
 							}();
 							return A3($avh4$elm_color$Color$rgb, val_, val_, val_);
 						},
-						A2($elm$core$List$range, 0 - ((resolution / 2) | 0), (resolution / 2) | 0));
+						A2($elm$core$List$range, 0, resolution));
 				},
-				A2($elm$core$List$range, 0 - ((resolution / 2) | 0), (resolution / 2) | 0))));
+				A2($elm$core$List$range, 0, resolution))));
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
@@ -10514,11 +10538,14 @@ var $elm_community$json_extra$Json$Decode$Extra$parseInt = A2(
 		$elm$core$String$toInt,
 		$elm_community$json_extra$Json$Decode$Extra$fromMaybe('Failed to parse as int')),
 	$elm$json$Json$Decode$string);
-var $author$project$Main$intField = F3(
-	function (name, val, msg) {
+var $author$project$Main$intField = F4(
+	function (name, val, msg, tooltip) {
 		return A2(
 			$elm$html$Html$label,
-			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$title(tooltip)
+				]),
 			_List_fromArray(
 				[
 					A2(
@@ -10549,6 +10576,7 @@ var $author$project$Main$intField = F3(
 	});
 var $elm$virtual_dom$VirtualDom$lazy = _VirtualDom_lazy;
 var $elm$html$Html$Lazy$lazy = $elm$virtual_dom$VirtualDom$lazy;
+var $elm$html$Html$legend = _VirtualDom_node('legend');
 var $elm$virtual_dom$VirtualDom$node = function (tag) {
 	return _VirtualDom_node(
 		_VirtualDom_noScript(tag));
@@ -10560,6 +10588,28 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
+var $elm$html$Html$Events$alwaysPreventDefault = function (msg) {
+	return _Utils_Tuple2(msg, true);
+};
+var $elm$virtual_dom$VirtualDom$MayPreventDefault = function (a) {
+	return {$: 2, a: a};
+};
+var $elm$html$Html$Events$preventDefaultOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayPreventDefault(decoder));
+	});
+var $elm$html$Html$Events$onSubmit = function (msg) {
+	return A2(
+		$elm$html$Html$Events$preventDefaultOn,
+		'submit',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$html$Html$Events$alwaysPreventDefault,
+			$elm$json$Json$Decode$succeed(msg)));
+};
 var $author$project$Main$view = function (_v0) {
 	var model = _v0.a;
 	var model2 = _v0.b;
@@ -10567,7 +10617,12 @@ var $author$project$Main$view = function (_v0) {
 		$elm$html$Html$div,
 		_List_fromArray(
 			[
-				$elm$html$Html$Attributes$class('main')
+				$elm$html$Html$Attributes$class('main'),
+				$elm$html$Html$Attributes$classList(
+				_List_fromArray(
+					[
+						_Utils_Tuple2('pixelated', !model.ad)
+					]))
 			]),
 		_List_fromArray(
 			[
@@ -10599,56 +10654,117 @@ var $author$project$Main$view = function (_v0) {
 					])),
 				A2($elm$html$Html$Lazy$lazy, $author$project$Main$image, model2),
 				A2(
-				$elm$html$Html$div,
+				$elm$html$Html$form,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('panel')
+						$elm$html$Html$Events$onSubmit($author$project$Main$Generate)
 					]),
 				_List_fromArray(
 					[
-						A3($author$project$Main$floatField, 'Scale', model.V, $author$project$Main$SetScale),
-						A3($author$project$Main$intField, 'Steps', model.X, $author$project$Main$SetSteps),
-						A3($author$project$Main$floatField, 'Step size', model.W, $author$project$Main$SetStepSize),
-						A3($author$project$Main$floatField, 'Persistence', model.T, $author$project$Main$SetPersistence),
-						A3($author$project$Main$intField, 'Resolution', model.aj, $author$project$Main$SetResolution),
 						A2(
-						$elm$html$Html$label,
+						$elm$html$Html$fieldset,
 						_List_Nil,
 						_List_fromArray(
 							[
 								A2(
-								$elm$html$Html$div,
+								$elm$html$Html$legend,
 								_List_Nil,
 								_List_fromArray(
 									[
-										$elm$html$Html$text('Threshold')
+										$elm$html$Html$text('Noise settings')
 									])),
-								A2(
-								$elm$html$Html$input,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$type_('checkbox'),
-										$elm$html$Html$Attributes$checked(
-										!_Utils_eq(model.G, $elm$core$Maybe$Nothing)),
-										$elm$html$Html$Events$onClick($author$project$Main$ToggleThreshold)
-									]),
-								_List_Nil)
+								A4($author$project$Main$floatField, 'Scale', model.V, $author$project$Main$SetScale, 'This scales all the noise, making it smoother/blurrier'),
+								A4($author$project$Main$intField, 'Steps', model.X, $author$project$Main$SetSteps, 'The number of noise layers to combine. The more layers, the larger the features will be. Increases processing time.'),
+								A4($author$project$Main$floatField, 'Step size', model.W, $author$project$Main$SetStepSize, 'A value of 2 means that each noise layer is twice as large as the previous one.'),
+								A4($author$project$Main$floatField, 'Persistence', model.T, $author$project$Main$SetPersistence, 'A higher persistence means that the larger noise layers are weighed more heavily, while a lower one weighs the smaller layers more.')
 							])),
-						function () {
-						var _v1 = model.G;
-						if (!_v1.$) {
-							var t = _v1.a;
-							return A3($author$project$Main$floatField, '-1 to 1', t, $author$project$Main$SetThreshold);
-						} else {
-							return $elm$html$Html$text('');
-						}
-					}(),
 						A2(
-						$elm$html$Html$button,
+						$elm$html$Html$fieldset,
+						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$Events$onClick($author$project$Main$Generate)
+								A2(
+								$elm$html$Html$legend,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$text('Display settings')
+									])),
+								A4($author$project$Main$intField, 'Resolution', model.ak, $author$project$Main$SetResolution, 'Width/height resolution of the generated image'),
+								A2(
+								$elm$html$Html$label,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$title('Toggle between greyscale and a hard black/white threshold')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$div,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text('Threshold')
+											])),
+										A2(
+										$elm$html$Html$input,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$type_('checkbox'),
+												$elm$html$Html$Attributes$checked(
+												!_Utils_eq(model.G, $elm$core$Maybe$Nothing)),
+												$elm$html$Html$Events$onClick($author$project$Main$ToggleThreshold)
+											]),
+										_List_Nil)
+									])),
+								function () {
+								var _v1 = model.G;
+								if (!_v1.$) {
+									var t = _v1.a;
+									return A4($author$project$Main$floatField, '-1 to 1', t, $author$project$Main$SetThreshold, 'The noise is generated in a range between -1 and 1.');
+								} else {
+									return $elm$html$Html$text('');
+								}
+							}(),
+								A2(
+								$elm$html$Html$label,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$title('Toggle the browser\'s image scaling mode. Turning off smooth scaling is not supported by all browsers.')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$div,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text('Smooth scaling')
+											])),
+										A2(
+										$elm$html$Html$input,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$type_('checkbox'),
+												$elm$html$Html$Attributes$checked(model.ad),
+												$elm$html$Html$Events$onClick($author$project$Main$ToggleSmooth)
+											]),
+										_List_Nil)
+									]))
+							])),
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('hint')
 							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Hover over the settings to see helpful tooltips')
+							])),
+						A2(
+						$elm$html$Html$button,
+						_List_Nil,
 						_List_fromArray(
 							[
 								$elm$html$Html$text('Generate')
@@ -10666,9 +10782,9 @@ var $author$project$Main$view = function (_v0) {
 };
 var $author$project$Main$main = $elm$browser$Browser$sandbox(
 	{
-		b2: _Utils_Tuple2($author$project$Main$initialModel, $author$project$Main$initialModel),
-		cj: $author$project$Main$update,
-		ck: $author$project$Main$view
+		b3: _Utils_Tuple2($author$project$Main$initialModel, $author$project$Main$initialModel),
+		ck: $author$project$Main$update,
+		cl: $author$project$Main$view
 	});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(0))(0)}});}(this));
