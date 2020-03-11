@@ -1,21 +1,9 @@
 module Simplex exposing
     ( PermutationTable, permutationTableGenerator, permutationTableFromInt
     , noise4d, noise3d, noise2d
-    )
+    , fractal2d, fractal3d, fractal4d)
 
-{-| This is a library to generate simplex noise in Elm.
-
-The code is a port of the [simplex noise JavaScript version](https:--github.com/jwagner/simplex-noise.js) by Jonas Wagner.
-
-
-## Example usage
-
-    ( perm, newSeed ) =
-        permutationTable (initialSeed 42)
-
-    -- generate the permutation table
-    noiseValue =
-        noise3d perm 1 1 1
+{-|
 
 
 # Permutation tables
@@ -23,10 +11,13 @@ The code is a port of the [simplex noise JavaScript version](https:--github.com/
 @docs PermutationTable, permutationTableGenerator, permutationTableFromInt
 
 
-# Genarate noise
+# Simplex noise
 
-@docs noise4d, noise3d, noise2d
+@docs noise2d, noise3d, noise4d
 
+# Fractal noise
+
+@docs fractal2d, fractal3d, fractal4d
 -}
 
 import Array exposing (Array)
@@ -605,3 +596,73 @@ noise4d { perm, permMod12 } x y z w =
             getN4d x4 y4 z4 w4 (ii + 1) (jj + 1) (kk + 1) (ll + 1) perm permMod12
     in
     27 * (n0 + n1 + n2 + n3 + n4)
+
+type alias FractalConfig =
+    { steps : Int
+    , stepSize : Float
+    , persistence : Float
+    , scale : Float
+    }
+
+{-| 2-dimensional fractal noise -}
+fractal2d : FractalConfig -> PermutationTable -> Float -> Float -> Float
+fractal2d { steps, stepSize, persistence, scale } table x y =
+    List.range 0 (steps - 1)
+        |> List.map toFloat
+        |> List.foldl
+            (\step ( noise, max ) ->
+                let
+                    freq =
+                        (stepSize ^ step) * scale
+
+                    amp =
+                        persistence ^ step
+                in
+                ( noise + (amp * noise2d table (x / freq ) (y / freq ))
+                , max + amp
+                )
+            )
+            ( 0, 0 )
+        |> (\( noise, max ) -> noise / max)
+
+{-| 3-dimensional fractal noise -}
+fractal3d : FractalConfig -> PermutationTable -> Float -> Float -> Float -> Float
+fractal3d { steps, stepSize, persistence, scale } table x y z=
+    List.range 0 (steps - 1)
+        |> List.map toFloat
+        |> List.foldl
+            (\step ( noise, max ) ->
+                let
+                    freq =
+                        (stepSize ^ step) * scale
+
+                    amp =
+                        persistence ^ step
+                in
+                ( noise + (amp * noise3d table (x / freq ) (y / freq ) (z / freq ))
+                , max + amp
+                )
+            )
+            ( 0, 0 )
+        |> (\( noise, max ) -> noise / max)
+
+{-| 4-dimensional fractal noise -}
+fractal4d : FractalConfig -> PermutationTable -> Float -> Float -> Float -> Float -> Float
+fractal4d { steps, stepSize, persistence, scale } table x y z t=
+    List.range 0 (steps - 1)
+        |> List.map toFloat
+        |> List.foldl
+            (\step ( noise, max ) ->
+                let
+                    freq =
+                        (stepSize ^ step) * scale
+
+                    amp =
+                        persistence ^ step
+                in
+                ( noise + (amp * noise4d table (x / freq ) (y / freq ) (z / freq ) (t / freq ))
+                , max + amp
+                )
+            )
+            ( 0, 0 )
+        |> (\( noise, max ) -> noise / max)
