@@ -66,14 +66,6 @@ get arr i =
             0
 
 
-reverseArray : Array a -> Array a
-reverseArray array =
-    Array.toList array |> List.reverse |> Array.fromList
-
-
-generatePermMod12 : Array Int -> Array Int
-generatePermMod12 perm =
-    Array.map (modBy 12) perm
 
 
 grad3 : Array Float
@@ -208,9 +200,9 @@ permutationTableGenerator =
             (\array ->
                 let
                     perm =
-                        Array.append array (reverseArray array)
+                        Array.append array array
                 in
-                { perm = perm, permMod12 = generatePermMod12 perm }
+                { perm = perm, permMod12 = Array.map (remainderBy 12) perm }
             )
 
 
