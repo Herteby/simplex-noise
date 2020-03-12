@@ -3,7 +3,7 @@
     "name": "Herteby/simplex-noise",
     "summary": "Generate simplex noise (an improvement of Perlin noise)",
     "license": "MIT",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "exposed-modules": [
         "Simplex"
     ],
