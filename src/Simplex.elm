@@ -595,13 +595,12 @@ noise4d { perm, permMod12 } x y z w =
 
 {-| Options for fractal noise generation
 
-  - steps: This scales all the noise, making it smoother/blurrier
-  - stepSize: The number of noise layers to combine. The more layers, the larger the features will be. Increases processing time.
-  - persistence: A value of 2 means that each noise layer is twice as large as the previous one.
-  - scale: A higher persistence means that the larger noise layers are weighed more heavily, while a lower one weighs the smaller layers more.
+  - steps: The number of noise layers to combine. The more layers, the larger the features will be. Increases processing time.
+  - stepSize: A value of 2 means that each noise layer is twice as large as the previous one.
+  - persistence: A persistence greater than 1 means that the larger noise layers are weighed more more heavily.
+  - scale: This scales all the noise, making it smoother/blurrier
 
 Use this previewer to experiment with different options: <https://herteby.github.io/simplex-noise/preview/>
-
 -}
 type alias FractalConfig =
     { steps : Int

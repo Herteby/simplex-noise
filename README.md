@@ -1,5 +1,5 @@
 # Simplex-noise
-This is a library to generate simplex noise in Elm.
+This is a library to generate [simplex noise](https://en.wikipedia.org/wiki/Simplex_noise) in Elm.
 
 [Interactive demo](https://herteby.github.io/simplex-noise/preview/)
 
