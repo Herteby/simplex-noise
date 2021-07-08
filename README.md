@@ -7,7 +7,7 @@ This is a library to generate [simplex noise](https://en.wikipedia.org/wiki/Simp
 
 ## Example usage
 
-```
+```elm
 import Simplex exposing (PermutationTable)
 
 --Create a permutation table, using 42 as the seed
